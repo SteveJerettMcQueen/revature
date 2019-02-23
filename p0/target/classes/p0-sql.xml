@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="findCustomerById.sql">
+		SELECT * FROM customer WHERE custid = ?
+	</entry>
+	<entry key="findCustomerAccountsById.sql">
+		SELECT *
+		FROM account
+		WHERE acntid = ANY (
+		SELECT acntid
+		FROM customer_owned_account
+		WHERE custid = ANY (
+		SELECT custid
+		FROM
+		customer
+		WHERE custid = ?));
+	</entry>
+	<entry key="findAccountById.sql">
+		SELECT * FROM account WHERE acntid = ?
+	</entry>
+	<entry key="findCustomerPasswordByUserName.sql">
+		SELECT password
+		FROM customer_access_with_bank
+		WHERE
+		bankid = (?) AND username = (?)
+	</entry>
+	<entry key="findCustomerByUserNameAndPassword.sql">
+		SELECT *
+		FROM customer
+		WHERE custid = ANY (
+		SELECT custid
+		FROM customer_access_with_bank
+		WHERE
+		username = ? AND password = ?);
+	</entry>
+	<entry key="findCustomerSaltForPasswordCheck.sql">
+		SELECT salt
+		FROM customer_access_with_bank
+		WHERE username = ?;
+	</entry>
+	<entry key="findCustomerTransactions.sql">
+		SELECT * FROM getCustomerTransactions(?,?,?)
+	</entry>
+	<entry key="insertCustomerTransactionWithBank.sql">
+		INSERT INTO
+		customer_transactione_with_bank(custid,bankid,transid,datecreated)
+		VALUES(?,?,?,?)
+	</entry>
+	<entry key="insertBankRegisteredCustomer.sql">
+		INSERT INTO bank_registered_customer(bankid, custid,
+		datecreated)
+		VALUES (?,?,?)
+	</entry>
+	<entry key="insertCustomerAccessWithBank.sql">
+		INSERT INTO customer_access_with_bank(custId, bankId,
+		username, password, salt)
+		VALUES(?,?,?,?,?)
+	</entry>
+	<entry key="insertCustomerOwnedAccount.sql">
+		INSERT INTO customer_owned_account(acntid, custid,
+		datecreated)
+		VALUES (?,?,?)
+	</entry>
+	<entry key="insertAccountTransaction.sql">
+		INSERT INTO account_transactione(acntid, transid,
+		datecreated)
+		VALUES (?,?,?)
+	</entry>
+	<entry key="insertCustomer.sql">
+		INSERT INTO customer(firstname, middlename, lastname,
+		ssn)
+		VALUES (?, ?, ?, ?) RETURNING custid
+	</entry>
+	<entry key="insertAccount.sql">
+		INSERT INTO account(acntname,balance) VALUES (?, ?)
+		RETURNING acntid
+	</entry>
+	<entry key="removeAccount.sql">
+		DELETE FROM account WHERE acntid = ?
+	</entry>
+	<entry key="insertTransaction.sql">
+		INSERT INTO transactione(description,form,amount)
+		VALUES (?, ?, ?)
+		RETURNING transid
+	</entry>
+	<entry key="updateAccountBalance.sql">
+		UPDATE account SET balance = ? WHERE acntid = ?;
+	</entry>
+</properties>

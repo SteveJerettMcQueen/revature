@@ -1,0 +1,32 @@
+<div>
+    <div>
+        <app-navigation></app-navigation>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Your Reimbursements</h4>
+            <div class="table-responsive">
+                <table class="table table-striped" *ngIf="reimbursements">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Status</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Resolved</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let reim of reimbursements">
+                            <td>{{reim.status.status}}</td>
+                            <td>{{reim.type.type}}</td>
+                            <td>{{reim.description}}</td>
+                            <td>{{reim.amount | currency:'USD'}}</td>
+                            <td>{{reim.resolved | date:'medium' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

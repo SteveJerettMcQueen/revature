@@ -1,0 +1,48 @@
+<div class="jumbotron">
+    <h2 class="display-5">Hello, {{name}}!</h2>
+    <hr class="my-4">
+    <div class="row">
+        <div class="col-5" *ngIf="isAdmin">
+            <div class="card bg-dark text-white mb-3">
+                <div class="card-body">
+                    <h5 class="card-title text-white">Administration</h5>
+                    <p class="card-subtitle mb-2 text-white">View and edit employee expense reimbursements.</p>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" routerLink="all-expense-reimbursements" routerLinkActive="active">View
+                                All User Reimbursements
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-7" style="width: 18rem;">
+            <div class="card bg-light mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Regular</h5>
+                    <p class="card-subtitle mb-2 text-muted">View and add your expense reimbursements here.</p>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" routerLink="user-expense-reimbursements" routerLinkActive="active">View
+                                Reimbursements</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" routerLink="expense-reimbursement" routerLinkActive="active">Add
+                                Reimbursement</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="page-footer font-small cyan darken-3">
+    <div class="row">
+        <div class="col-md-12 py-3">
+            <div class="mb-3 flex-center">
+                <button (click)="logout()" class="btn btn-primary btn-small">Logout</button>
+            </div>
+        </div>
+    </div>
+</footer>

@@ -1,0 +1,54 @@
+<div>
+    <div>
+        <app-navigation></app-navigation>
+    </div>
+    <div>
+        <div class="alert {{alertClass}}" role="alert" *ngIf="isSuccess">{{message}}</div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Reimbursement Form</h5>
+                <form>
+                    <div class="form-group">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect00">Amount</label>
+                            </div>
+                            <input [(ngModel)]="reimbursementData.amount" name="amount" type="number"
+                                class="form-control" id="inputGroupSelect00">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea [(ngModel)]="reimbursementData.description" name="description" class="form-control"
+                            rows="7"
+                            placeholder="Please be very descriptive with your descriptions of the reimbursements"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Status</span>
+                            </div>
+                            <input [(ngModel)]="reimbursementData.status.status" name="status" class="form-control"
+                                type="text" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">Types</label>
+                            </div>
+                            <select (change)="selectedReimbursementType($event)" class="custom-select"
+                                id="inputGroupSelect01">
+                                <option *ngFor="let type of reimbursementTypes" value="{{type.typeid}}">{{type.type}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <button (click)="submitReimbursement()" type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

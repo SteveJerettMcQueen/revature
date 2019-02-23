@@ -1,0 +1,9 @@
+<div>
+  <div class="btn-group" role="group" aria-label="Basic example">
+    <button (click)="goToHomeView()" type="button" class="btn btn-secondary">Home</button>
+    <button (click)="goToAllUserReimbursementsView()" type="button" class="btn btn-secondary" *ngIf="isAdmin">View All
+      User Reimbursements</button>
+    <button (click)="goToUserReimbursementsView()" type="button" class="btn btn-secondary">View Reimbursement</button>
+    <button (click)="goToAddReimbursementView()" type="button" class="btn btn-secondary">Add Reimbursement</button>
+  </div>
+</div>

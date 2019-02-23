@@ -1,0 +1,78 @@
+<div>
+    <div>
+        <app-navigation></app-navigation>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">View Employee Reimbursements</h4>
+                    <p class="card-text">Hover over an employee and click to enable a view of the reimbursements</p>
+                    <h5 class="card-title">Employees</h5>
+                    <div class="table-responsive">
+                        <table class="table table-hover thead-dark" *ngIf="users" (mouseover)="reimbursements=false">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Role</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Email</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr (click)="setClickedUser(user)" *ngFor="let user of users">
+                                    <td>{{user.role.role}}</td>
+                                    <td>{{user.firstname}}</td>
+                                    <td>{{user.lastname}}</td>
+                                    <td>{{user.email}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div *ngIf="isSelected">
+                        <button (click)="viewSelectedUserReimbursements()" class="btn btn-info btn-sm">View
+                            {{selectedUser.firstname}}
+                            {{selectedUser.lastname}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body" *ngIf="reimbursements">
+            <h5 class="card-title">{{selectedUser.firstname}} {{selectedUser.lastname}} Reimbursements</h5>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Action</th>
+                            <th>Status</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let reim of reimbursements">
+                            <td>
+                                <div class="btn-group btn-group-toggle" *ngIf="reim.status.status==='Pending' ">
+                                    <button (click)="doOperation(reim, 2, 'Approved')" class="btn btn-success btn-sm"
+                                        type="button">Approve</button>
+                                    <button (click)="doOperation(reim, 3, 'Denied')" class="btn btn-danger btn-sm"
+                                        type="button">Deny</button>
+                                </div>
+                                <div class="btn-group btn-group-toggle"
+                                    *ngIf="reim.status.status==='Approved' || reim.status.status==='Denied'">
+                                    <button (click)="doOperation(reim, 1, 'Pending')" class="btn btn-secondary btn-sm"
+                                        type="button">Reset</button>
+                                </div>
+                            </td>
+                            <td>{{reim.status.status}}</td>
+                            <td>{{reim.type.type}}</td>
+                            <td>{{reim.description}}</td>
+                            <td>{{reim.amount | currency:'USD'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

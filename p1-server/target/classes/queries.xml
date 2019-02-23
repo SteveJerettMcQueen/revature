@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="createExpenseReimbursement">
+		INSERT INTO
+		expense_reimbursement(description,amount,receipt,typeid,statusid)
+		VALUES (?,?,?,?,?) RETURNING erid;
+	</entry>
+	<entry key="createUserSubmittedExpenseReimbursement">
+		INSERT INTO
+		user_submitted_expense_reimbursement(submitter,erid,submitted) VALUES
+		(?,?,?);
+	</entry>
+	<entry key="findExpenseReimbursementUserById">
+		SELECT * FROM expense_reimbursement_user WHERE eruid
+		=?;
+	</entry>
+	<entry key="findExpenseReimbursementUserIdByUsernamePassword">
+		SELECT eruid FROM expense_reimbursement_system_access
+		WHERE
+		username = ? AND password = ?;
+	</entry>
+	<entry key="findExpenseReimbursementSystemAccessById">
+		SELECT * FROM expense_reimbursement_system_access
+		WHERE eruid = ?;
+	</entry>
+	<entry key="findUserSubmittedExpenseReimbursementById">
+		SELECT * FROM user_submitted_expense_reimbursement
+		WHERE submitter = ?;
+	</entry>
+	<entry key="findUserRoleWithExpenseReimbursementSystemById">
+		SELECT * FROM expense_reimbursement_system_role
+		WHERE
+		roleid = ANY (
+		SELECT roleid
+		FROM
+		user_role_with_expense_reimbursement_system
+		WHERE eruid = ANY (
+		SELECT
+		eruid
+		FROM expense_reimbursement_user
+		WHERE eruid = ?
+		));
+	</entry>
+	<entry key="findUserSaltForPasswordCheckByUsername">
+		SELECT salt FROM expense_reimbursement_system_access
+		WHERE username = ?;
+	</entry>
+	<entry key="findExpenseReimbursementsByUserId">
+		SELECT * FROM expense_reimbursement
+		WHERE erid = ANY (
+		SELECT erid
+		FROM user_submitted_expense_reimbursement
+		WHERE submitter =
+		ANY (
+		SELECT eruid
+		FROM expense_reimbursement_user
+		WHERE eruid = ?));
+	</entry>
+	<entry key="findExpenseReimbursementById">
+		SELECT * FROM expense_reimbursement WHERE erid = ?;
+	</entry>
+	<entry key="findExpenseReimbursementStatusById">
+		SELECT * FROM expense_reimbursement_status
+		WHERE
+		statusid = ANY (SELECT statusid FROM
+		expense_reimbursement WHERE erid =
+		?);
+	</entry>
+	<entry key="findExpenseReimbursementTypeById">
+		SELECT * FROM expense_reimbursement_type
+		WHERE
+		typeid =
+		ANY (SELECT typeid FROM
+		expense_reimbursement WHERE erid = ?);
+	</entry>
+	<entry key="findResolvedExpenseReimbursementByUserId">
+		SELECT * FROM expense_reimbursement
+		WHERE resolver =
+		ANY (
+		SELECT eruid
+		FROM expense_reimbursement_user
+		WHERE eruid = ?);
+	</entry>
+	<entry key="findWhoResolvedExpenseReimbursementById">
+		SELECT * FROM expense_reimbursement_user
+		WHERE eruid =
+		ANY (
+		SELECT resolver
+		FROM expense_reimbursement
+		WHERE erid = ?);
+	</entry>
+	<entry key="findAllStatuses">
+		SELECT * FROM expense_reimbursement_status
+	</entry>
+	<entry key="findAllTypes">
+		SELECT * FROM expense_reimbursement_type
+	</entry>
+	<entry key="findAllExpenseReimbursementUsers">
+		SELECT * FROM expense_reimbursement_user;
+	</entry>
+	<entry key="findAllUserSubmittedExpenseReimbursement">
+		SELECT * FROM user_submitted_expense_reimbursement;
+	</entry>
+	<entry key="updateExpenseReimbursement">
+		UPDATE expense_reimbursement
+		SET 
+		description=?,
+		amount=?,
+		typeid=?,
+		statusid=?,
+		receipt=?,
+		resolver=?,
+		resolved=?
+		WHERE erid=?;
+	</entry>
+</properties>
